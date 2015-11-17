@@ -368,5 +368,46 @@ describe('Bill', () => {
       }
     });
   });
+
+  it('shows each item bought in the store', () => {
+
+    let billData = {
+      statement: {
+        period: {}
+      },
+      ['package']: {
+        subscriptions: [
+        ]
+      },
+      callCharges: {
+        calls: [
+        ]
+      },
+      skyStore: {
+        buyAndKeep: [
+          { "title": "50 Shades of Grey", "cost": 4.99 },
+          { "title": "50 Shades Darker", "cost": 5.99 }
+        ]
+      }
+    };
+
+    let bill = TestUtils.renderIntoDocument(
+        <Bill bill={billData} />
+    );
+
+    let sections = TestUtils.scryRenderedComponentsWithType(
+      bill,
+      BillSection);
+    let items = TestUtils.scryRenderedComponentsWithType(
+      sections[2],
+      StoreItem
+    );
+    expect(items.length).toEqual(2);
+    billData.skyStore.buyAndKeep.forEach((item, i) => {
+      for (let prop in item) {
+        expect(item[prop]).toEqual(items[i].props[prop]);
+      }
+    });
+  });
   
 });

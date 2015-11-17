@@ -52,6 +52,7 @@ export default class Bill extends React.Component {
     let subs = bill['package'].subscriptions;
     let calls = bill.callCharges.calls;
     let rentals = bill.skyStore.rentals || [];
+    let bought = bill.skyStore.buyAndKeep || [];
 
     return (
       <div>
@@ -98,10 +99,15 @@ export default class Bill extends React.Component {
                 total={storeTotal}
                 >
           <table>
-            {rentals ?
+            {rentals.length ?
             <tbody>
-              <th colspan="2">Rentals</th>
+              <th colSpan="2">Rentals</th>
               {rentals.map(rental => <StoreItem {...rental} />)}
+            </tbody> : null}
+            {bought.length ?
+            <tbody>
+              <th colSpan="2">Buy and keep</th>
+              {bought.map(item => <StoreItem {...item} />)}
             </tbody> : null}
           </table>
         </BillSection>
