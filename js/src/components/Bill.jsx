@@ -3,6 +3,7 @@ import BillSection from './BillSection';
 import Subscription from './Subscription';
 import Call from './Call';
 import StoreItem from './StoreItem';
+import PrettyDate from './PrettyDate';
 
 export default class Bill extends React.Component {
   static propTypes = {
@@ -59,7 +60,7 @@ export default class Bill extends React.Component {
         <h1>Welcome to your Sky bill</h1>
         <dl className="dates dl-horizontal">
           <dt>This statement was generated on</dt>
-          <dd><span className="date-generated">{generated}</span></dd>
+          <dd><span className="date-generated"><PrettyDate date={generated}/></span></dd>
           <dt>Payment is due on</dt>
           <dd><span className="date-due">{due}</span></dd>
           <dt>This statement is for the period</dt>
