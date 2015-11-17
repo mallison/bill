@@ -1,5 +1,4 @@
 jest.dontMock('../src/components/Bill');
-jest.dontMock('../src/components/BillSection');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -10,6 +9,8 @@ const BillSection = require('../src/components/BillSection');
 const Subscription = require('../src/components/Subscription');
 const Call = require('../src/components/Call');
 const StoreItem = require('../src/components/StoreItem');
+
+TestUtils.mockComponent(BillSection);
 
 describe('Bill', () => {
 

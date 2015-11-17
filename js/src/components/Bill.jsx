@@ -73,7 +73,7 @@ export default class Bill extends React.Component {
           <div className="col-md-6">
             <h2>Total</h2>
           </div>
-          <div className="col-md-6 total">
+          <div className="col-md-6 section-total">
             <span className="overall-total">{total}</span>
           </div>
         </div>
