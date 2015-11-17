@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-export default class Bill extends React.Component {
+export default class BillSection extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     total: PropTypes.number.isRequired

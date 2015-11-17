@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import BillSection from './BillSection';
 
 export default class Bill extends React.Component {
   static propTypes = {
@@ -11,7 +12,10 @@ export default class Bill extends React.Component {
           to: PropTypes.string.isRequired
         }).isRequired
       }),
-      total: PropTypes.number.isRequired
+      total: PropTypes.number.isRequired,
+      ['package']: PropTypes.shape({
+        total: PropTypes.number.isRequired
+      }).isRequired
     }).isRequired
   }
 
@@ -21,7 +25,10 @@ export default class Bill extends React.Component {
     let from = this.props.bill.statement.period.from;
     let to = this.props.bill.statement.period.to;
     let total = this.props.bill.total;
-
+    let packageTotal = this.props.bill['package'].total;
+    let callsTotal = this.props.bill.callCharges.total;
+    let storeTotal = this.props.bill.skyStore.total;
+    
     return (
       <div>
         <h1>Welcome to your Sky bill</h1>
@@ -40,6 +47,20 @@ export default class Bill extends React.Component {
           {' '}
           <span className="overall-total">{total}</span>
         </p>
+        <hr/>
+        <p>Below is a breakdown of how we've calculated your bill.</p>
+        <BillSection
+                title="Your package"
+                total={packageTotal}
+        />
+        <BillSection
+                title="Your call charges"
+                total={callsTotal}
+        />
+        <BillSection
+                title="Your Sky Store purchases"
+                total={storeTotal}
+        />
       </div>
     );
   }
