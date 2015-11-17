@@ -24,7 +24,7 @@ describe('Subscription', () => {
   it('shows the type', () => {
     let sub = TestUtils.renderIntoDocument(
         <Wrapper>
-        <Subscription type="talk"/>
+        <Subscription type="talk" cost={0} />
         </Wrapper>
     );
 
@@ -39,7 +39,7 @@ describe('Subscription', () => {
   it('shows the name', () => {
     let sub = TestUtils.renderIntoDocument(
         <Wrapper>
-        <Subscription name="Sky Talk Anytime"/>
+        <Subscription name="Sky Talk Anytime" cost={0} />
         </Wrapper>
     );
 
