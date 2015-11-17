@@ -1,4 +1,5 @@
 jest.dontMock('../src/components/Bill');
+jest.dontMock('../src/components/BillSection');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -6,6 +7,7 @@ import TestUtils from 'react-addons-test-utils';
 
 const Bill = require('../src/components/Bill');
 const BillSection = require('../src/components/BillSection');
+const Subscription = require('../src/components/Subscription');
 
 describe('Bill', () => {
 
@@ -15,7 +17,9 @@ describe('Bill', () => {
       statement: {
         period: {}
       },
-      ['package']: {},
+      ['package']: {
+        subscriptions: []
+      },
       callCharges: {},
       skyStore: {
         'total': 24.97
@@ -41,7 +45,9 @@ describe('Bill', () => {
         generated: '2015-01-11',
         period: {}
       },
-      ['package']: {},
+      ['package']: {
+        subscriptions: []
+      },
       callCharges: {},
       skyStore: {
         'total': 24.97
@@ -65,7 +71,9 @@ describe('Bill', () => {
         due: '2015-01-25',
         period: {}
       },
-      ['package']: {},
+      ['package']: {
+        subscriptions: []
+      },
       callCharges: {},
       skyStore: {
         'total': 24.97
@@ -91,7 +99,9 @@ describe('Bill', () => {
           to: '2015-02-25'
         }
       },
-      ['package']: {},
+      ['package']: {
+        'subscriptions': []
+      },
       callCharges: {},
       skyStore: {
         'total': 24.97
@@ -119,7 +129,9 @@ describe('Bill', () => {
         period: {},
       },
       total: 136.03,
-      ['package']: {},
+      ['package']: {
+        'subscriptions': []
+      },
       callCharges: {},
       skyStore: {
         'total': 24.97
@@ -143,6 +155,7 @@ describe('Bill', () => {
         period: {}
       },
       ['package']: {
+        subscriptions: [],
         total: 71.40
       },
       callCharges: {},
@@ -168,7 +181,9 @@ describe('Bill', () => {
       statement: {
         period: {}
       },
-      ['package']: {},
+      ['package']: {
+        subscriptions: []
+      },
       callCharges: {
         'total': 59.64
       },
@@ -194,7 +209,9 @@ describe('Bill', () => {
       statement: {
         period: {}
       },
-      ['package']: {},
+      ['package']: {
+        subscriptions: []
+      },
       callCharges: {
         'total': 59.64
       },
@@ -212,6 +229,45 @@ describe('Bill', () => {
       BillSection);
     expect(sections[2].props.title).toEqual('Your Sky Store purchases');
     expect(sections[2].props.total).toEqual(24.97);
+  });
+
+  it('shows each package subscription', () => {
+
+    let billData = {
+      statement: {
+        period: {}
+      },
+      ['package']: {
+        subscriptions: [
+          { 'type': 'tv', 'name': 'Variety with Movies HD', 'cost': 50.00 },
+          { 'type': 'talk', 'name': 'Sky Talk Anytime', 'cost': 5.00 }
+        ]
+      },
+      callCharges: {
+        'total': 59.64
+      },
+      skyStore: {
+        'total': 24.97
+      }
+    };
+
+    let bill = TestUtils.renderIntoDocument(
+        <Bill bill={billData} />
+    );
+
+    let sections = TestUtils.scryRenderedComponentsWithType(
+      bill,
+      BillSection);
+    let subs = TestUtils.scryRenderedComponentsWithType(
+      sections[0],
+      Subscription
+    );
+    expect(subs.length).toEqual(2);
+    billData['package'].subscriptions.forEach((sub, i) => {
+      for (let prop in sub) {
+        expect(sub[prop]).toEqual(subs[i].props[prop]);
+      }
+    });
   });
   
 });

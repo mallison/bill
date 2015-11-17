@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import BillSection from './BillSection';
+import Subscription from './Subscription';
 
 export default class Bill extends React.Component {
   static propTypes = {
@@ -14,21 +15,30 @@ export default class Bill extends React.Component {
       }),
       total: PropTypes.number.isRequired,
       ['package']: PropTypes.shape({
-        total: PropTypes.number.isRequired
+        total: PropTypes.number.isRequired,
+        subscriptions: PropTypes.arrayOf(
+          PropTypes.shape({
+            type: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            cost: PropTypes.number.isRequired
+          }).isRequired
+        ).isRequired
       }).isRequired
     }).isRequired
   }
 
   render() {
-    let generated = this.props.bill.statement.generated;
-    let due = this.props.bill.statement.due;
-    let from = this.props.bill.statement.period.from;
-    let to = this.props.bill.statement.period.to;
-    let total = this.props.bill.total;
-    let packageTotal = this.props.bill['package'].total;
-    let callsTotal = this.props.bill.callCharges.total;
-    let storeTotal = this.props.bill.skyStore.total;
-    
+    let bill = this.props.bill;
+    let generated = bill.statement.generated;
+    let due = bill.statement.due;
+    let from = bill.statement.period.from;
+    let to = bill.statement.period.to;
+    let total = bill.total;
+    let packageTotal = bill['package'].total;
+    let callsTotal = bill.callCharges.total;
+    let storeTotal = bill.skyStore.total;
+    let subs = bill['package'].subscriptions;
+
     return (
       <div>
         <h1>Welcome to your Sky bill</h1>
@@ -52,7 +62,13 @@ export default class Bill extends React.Component {
         <BillSection
                 title="Your package"
                 total={packageTotal}
-        />
+                >
+          <table>
+            <tbody>
+              {subs.map(sub => <Subscription key={sub.type} {...sub} />)}
+            </tbody>
+          </table>
+        </BillSection>
         <BillSection
                 title="Your call charges"
                 total={callsTotal}
