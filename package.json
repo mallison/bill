@@ -35,7 +35,8 @@
       "<rootDir>/node_modules/fbjs"
     ],
     "testFileExtensions": ["es6", "js"],
-    "moduleFileExtensions": ["js", "json", "es6", "jsx"]
+    "moduleFileExtensions": ["js", "json", "es6", "jsx"],
+    "testPathIgnorePatterns": ["/node_modules/", "/flycheck_.*/"]
   },
   "engines": {
     "node": ">=0.8.0"
