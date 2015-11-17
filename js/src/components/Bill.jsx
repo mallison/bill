@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import BillSection from './BillSection';
 import Subscription from './Subscription';
+import Call from './Call';
 
 export default class Bill extends React.Component {
   static propTypes = {
@@ -23,6 +24,16 @@ export default class Bill extends React.Component {
             cost: PropTypes.number.isRequired
           }).isRequired
         ).isRequired
+      }).isRequired,
+      callCharges: PropTypes.shape({
+        total: PropTypes.number.isRequired,
+        calls: PropTypes.arrayOf(
+          PropTypes.shape({
+            called: PropTypes.string.isRequired,
+            duration: PropTypes.string.isRequired,
+            cost: PropTypes.number.isRequired
+          }).isRequired
+        ).isRequired
       }).isRequired
     }).isRequired
   }
@@ -38,6 +49,7 @@ export default class Bill extends React.Component {
     let callsTotal = bill.callCharges.total;
     let storeTotal = bill.skyStore.total;
     let subs = bill['package'].subscriptions;
+    let calls = bill.callCharges.calls;
 
     return (
       <div>
@@ -72,7 +84,13 @@ export default class Bill extends React.Component {
         <BillSection
                 title="Your call charges"
                 total={callsTotal}
-        />
+        >
+          <table>
+            <tbody>
+              {calls.map(call => <Call {...call} />)}
+            </tbody>
+          </table>
+        </BillSection>
         <BillSection
                 title="Your Sky Store purchases"
                 total={storeTotal}

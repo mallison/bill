@@ -8,6 +8,7 @@ import TestUtils from 'react-addons-test-utils';
 const Bill = require('../src/components/Bill');
 const BillSection = require('../src/components/BillSection');
 const Subscription = require('../src/components/Subscription');
+const Call = require('../src/components/Call');
 
 describe('Bill', () => {
 
@@ -20,7 +21,9 @@ describe('Bill', () => {
       ['package']: {
         subscriptions: []
       },
-      callCharges: {},
+      callCharges: {
+        calls: [],
+      },
       skyStore: {
         'total': 24.97
       }
@@ -48,7 +51,9 @@ describe('Bill', () => {
       ['package']: {
         subscriptions: []
       },
-      callCharges: {},
+      callCharges: {
+        calls: []
+      },
       skyStore: {
         'total': 24.97
       }
@@ -74,7 +79,9 @@ describe('Bill', () => {
       ['package']: {
         subscriptions: []
       },
-      callCharges: {},
+      callCharges: {
+        calls: []
+      },
       skyStore: {
         'total': 24.97
       }
@@ -102,7 +109,9 @@ describe('Bill', () => {
       ['package']: {
         'subscriptions': []
       },
-      callCharges: {},
+      callCharges: {
+        calls: []
+      },
       skyStore: {
         'total': 24.97
       }
@@ -132,7 +141,9 @@ describe('Bill', () => {
       ['package']: {
         'subscriptions': []
       },
-      callCharges: {},
+      callCharges: {
+        calls: []
+      },
       skyStore: {
         'total': 24.97
       }
@@ -158,7 +169,9 @@ describe('Bill', () => {
         subscriptions: [],
         total: 71.40
       },
-      callCharges: {},
+      callCharges: {
+        calls: []
+      },
       skyStore: {
         'total': 24.97
       }
@@ -185,7 +198,8 @@ describe('Bill', () => {
         subscriptions: []
       },
       callCharges: {
-        'total': 59.64
+        'total': 59.64,
+        calls: []
       },
       skyStore: {
         'total': 24.97
@@ -213,7 +227,8 @@ describe('Bill', () => {
         subscriptions: []
       },
       callCharges: {
-        'total': 59.64
+        'total': 59.64,
+        calls: []
       },
       skyStore: {
         'total': 24.97
@@ -244,7 +259,8 @@ describe('Bill', () => {
         ]
       },
       callCharges: {
-        'total': 59.64
+        'total': 59.64,
+        calls: []
       },
       skyStore: {
         'total': 24.97
@@ -266,6 +282,47 @@ describe('Bill', () => {
     billData['package'].subscriptions.forEach((sub, i) => {
       for (let prop in sub) {
         expect(sub[prop]).toEqual(subs[i].props[prop]);
+      }
+    });
+  });
+
+  it('shows each call', () => {
+
+    let billData = {
+      statement: {
+        period: {}
+      },
+      ['package']: {
+        subscriptions: [
+        ]
+      },
+      callCharges: {
+        'total': 59.64,
+        calls: [
+          { 'called': '07716393769', 'duration': '00:23:03', 'cost': 2.13 },
+          { 'called': '07716393769', 'duration': '00:23:03', 'cost': 2.13 }
+        ]
+      },
+      skyStore: {
+        'total': 24.97
+      }
+    };
+
+    let bill = TestUtils.renderIntoDocument(
+        <Bill bill={billData} />
+    );
+
+    let sections = TestUtils.scryRenderedComponentsWithType(
+      bill,
+      BillSection);
+    let calls = TestUtils.scryRenderedComponentsWithType(
+      sections[1],
+      Call
+    );
+    expect(calls.length).toEqual(2);
+    billData.callCharges.calls.forEach((call, i) => {
+      for (let prop in call) {
+        expect(call[prop]).toEqual(calls[i].props[prop]);
       }
     });
   });
