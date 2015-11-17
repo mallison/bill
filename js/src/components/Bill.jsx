@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import BillSection from './BillSection';
 import Subscription from './Subscription';
 import Call from './Call';
+import StoreItem from './StoreItem';
 
 export default class Bill extends React.Component {
   static propTypes = {
@@ -50,6 +51,7 @@ export default class Bill extends React.Component {
     let storeTotal = bill.skyStore.total;
     let subs = bill['package'].subscriptions;
     let calls = bill.callCharges.calls;
+    let rentals = bill.skyStore.rentals || [];
 
     return (
       <div>
@@ -94,7 +96,15 @@ export default class Bill extends React.Component {
         <BillSection
                 title="Your Sky Store purchases"
                 total={storeTotal}
-        />
+                >
+          <table>
+            {rentals ?
+            <tbody>
+              <th colspan="2">Rentals</th>
+              {rentals.map(rental => <StoreItem {...rental} />)}
+            </tbody> : null}
+          </table>
+        </BillSection>
       </div>
     );
   }

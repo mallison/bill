@@ -9,6 +9,7 @@ const Bill = require('../src/components/Bill');
 const BillSection = require('../src/components/BillSection');
 const Subscription = require('../src/components/Subscription');
 const Call = require('../src/components/Call');
+const StoreItem = require('../src/components/StoreItem');
 
 describe('Bill', () => {
 
@@ -323,6 +324,47 @@ describe('Bill', () => {
     billData.callCharges.calls.forEach((call, i) => {
       for (let prop in call) {
         expect(call[prop]).toEqual(calls[i].props[prop]);
+      }
+    });
+  });
+
+  it('shows each store rental', () => {
+
+    let billData = {
+      statement: {
+        period: {}
+      },
+      ['package']: {
+        subscriptions: [
+        ]
+      },
+      callCharges: {
+        calls: [
+        ]
+      },
+      skyStore: {
+        rentals: [
+          { "title": "50 Shades of Grey", "cost": 4.99 },
+          { "title": "50 Shades Darker", "cost": 5.99 }
+        ]
+      }
+    };
+
+    let bill = TestUtils.renderIntoDocument(
+        <Bill bill={billData} />
+    );
+
+    let sections = TestUtils.scryRenderedComponentsWithType(
+      bill,
+      BillSection);
+    let rentals = TestUtils.scryRenderedComponentsWithType(
+      sections[2],
+      StoreItem
+    );
+    expect(rentals.length).toEqual(2);
+    billData.skyStore.rentals.forEach((rental, i) => {
+      for (let prop in rental) {
+        expect(rental[prop]).toEqual(rentals[i].props[prop]);
       }
     });
   });
