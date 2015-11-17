@@ -14,7 +14,7 @@ export default class Call extends React.Component {
       <tr>
         <td>{called}</td>
         <td>{duration}</td>
-        <td>{money(cost)}</td>
+        <td className="money">{money(cost)}</td>
       </tr>
     );
   }

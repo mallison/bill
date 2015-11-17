@@ -57,28 +57,40 @@ export default class Bill extends React.Component {
     return (
       <div>
         <h1>Welcome to your Sky bill</h1>
-        <p>This statement was generated on:
-          <span className="date-generated">{generated}</span>
+        <dl className="dates dl-horizontal">
+          <dt>This statement was generated on</dt>
+          <dd><span className="date-generated">{generated}</span></dd>
+          <dt>Payment is due on</dt>
+          <dd><span className="date-due">{due}</span></dd>
+          <dt>This statement is for the period</dt>
+          <dd>
+            <span className="date-from">{from}</span>
+            {' \u2013 '}
+            <span className="date-to">{to}</span>
+          </dd>
+        </dl>
+        <div className="row">
+          <div className="col-md-6">
+            <h2>Total</h2>
+          </div>
+          <div className="col-md-6 total">
+            <span className="overall-total">{total}</span>
+          </div>
+        </div>
+        <p>
+          Below is a breakdown of how we've calculated your bill. Click
+          on any section to show a detailed breakdown of the charges.
         </p>
-        <p>Payment is due on:
-          <span className="date-due">{due}</span>
-        </p>
-        <p>This statement is for the period:
-          <span className="date-from">{from}</span>
-          {' \u2013 '}
-          <span className="date-to">{to}</span>
-        </p>
-        <p>Total:
-          {' '}
-          <span className="overall-total">{total}</span>
-        </p>
-        <hr/>
-        <p>Below is a breakdown of how we've calculated your bill.</p>
         <BillSection
                 title="Your package"
                 total={packageTotal}
                 >
-          <table>
+          <table className="table table-collapse table-striped">
+            <thead>
+              <th>Service</th>
+              <th>Subscription</th>
+              <th className="money">Cost</th>
+            </thead>
             <tbody>
               {subs.map(sub => <Subscription key={sub.type} {...sub} />)}
             </tbody>
@@ -88,7 +100,12 @@ export default class Bill extends React.Component {
                 title="Your call charges"
                 total={callsTotal}
         >
-          <table>
+          <table className="table table-collapse table-striped">
+            <thead>
+              <th>Number</th>
+              <th>Duration</th>
+              <th className="money">Cost</th>
+            </thead>
             <tbody>
               {calls.map(call => <Call {...call} />)}
             </tbody>
@@ -98,18 +115,30 @@ export default class Bill extends React.Component {
                 title="Your Sky Store purchases"
                 total={storeTotal}
                 >
-          <table>
-            {rentals.length ?
+          {rentals.length ?
+           <table className="table table-collapse table-striped">
+           <caption>Rentals</caption>
+           <thead>
+           <th>Title</th>
+           <th className="money">Cost</th>
+           </thead>
             <tbody>
-              <th colSpan="2">Rentals</th>
               {rentals.map(rental => <StoreItem {...rental} />)}
-            </tbody> : null}
-            {bought.length ?
-            <tbody>
-              <th colSpan="2">Buy and keep</th>
-              {bought.map(item => <StoreItem {...item} />)}
-            </tbody> : null}
+            </tbody>
           </table>
+           : null}
+            {bought.length ?
+           <table className="table table-collapse table-striped">
+           <caption>Buy and keep</caption>
+           <thead>
+           <th>Title</th>
+           <th className="money">Cost</th>
+           </thead>
+            <tbody>
+              {bought.map(item => <StoreItem {...item} />)}
+             </tbody>
+          </table>
+             : null}
         </BillSection>
       </div>
     );

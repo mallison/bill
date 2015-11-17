@@ -12,7 +12,7 @@ export default class StoreItem extends React.Component {
     return (
       <tr>
         <td>{title}</td>
-        <td>{money(cost)}</td>
+        <td className="money">{money(cost)}</td>
       </tr>
     );
   }

@@ -14,7 +14,7 @@ export default class Subscription extends React.Component {
       <tr>
         <td>{type}</td>
         <td>{name}</td>
-        <td>{money(cost)}</td>
+        <td className="money">{money(cost)}</td>
       </tr>
     );
   }

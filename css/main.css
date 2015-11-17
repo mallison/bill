@@ -1,0 +1,19 @@
+.dates dt {
+    width: 230px;
+    text-align: left;
+}
+.dates dd {
+    margin-left: 250px;
+}
+.total {
+    text-align: right;
+    font-size: 30px;
+}
+.money {
+    text-align: right;
+}
+@media (min-width: 1200px) {
+    .container {
+	width: 970px;
+    }
+}

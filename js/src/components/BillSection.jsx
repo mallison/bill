@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import money from '../utils/money';
 
 export default class BillSection extends React.Component {
   static propTypes = {
@@ -9,11 +10,15 @@ export default class BillSection extends React.Component {
   render() {
     return (
       <section>
-        <h2>{this.props.title}</h2>
+        <div className="row">
+          <div className="col-md-6">
+            <h2>{this.props.title}</h2>
+          </div>
+          <div className="col-md-6 total">
+            <span className="total">{money(this.props.total)}</span>
+          </div>
+        </div>
         {this.props.children}
-        <p>Total:
-          <span className="total">{this.props.total}</span>
-        </p>
       </section>
     );
   }
