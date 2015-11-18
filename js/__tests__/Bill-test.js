@@ -9,6 +9,7 @@ const BillSection = require('../src/components/BillSection');
 const Subscription = require('../src/components/Subscription');
 const Call = require('../src/components/Call');
 const StoreItem = require('../src/components/StoreItem');
+const PrettyDate = require('../src/components/PrettyDate');
 
 TestUtils.mockComponent(BillSection);
 
@@ -44,7 +45,6 @@ describe('Bill', () => {
   });
 
   it('shows the date it was generated', () => {
-
     let billData = {
       statement: {
         generated: '2015-01-11',
@@ -65,10 +65,10 @@ describe('Bill', () => {
         <Bill bill={billData} />
     );
 
-    let date = TestUtils.findRenderedDOMComponentWithClass(
+    let dates = TestUtils.scryRenderedComponentsWithType(
       bill,
-      'date-generated');
-    expect(date.textContent).toEqual('2015-01-11');
+      PrettyDate);
+    expect(dates[0].props.date).toEqual('2015-01-11');
   });
 
   it('shows the date it is due', () => {
@@ -93,10 +93,10 @@ describe('Bill', () => {
         <Bill bill={billData} />
     );
 
-    let date = TestUtils.findRenderedDOMComponentWithClass(
+    let dates = TestUtils.scryRenderedComponentsWithType(
       bill,
-      'date-due');
-    expect(date.textContent).toEqual('2015-01-25');
+      PrettyDate);
+    expect(dates[1].props.date).toEqual('2015-01-25');
   });
 
   it('shows the period the bill is for', () => {
@@ -123,14 +123,11 @@ describe('Bill', () => {
         <Bill bill={billData} />
     );
 
-    let dateFrom = TestUtils.findRenderedDOMComponentWithClass(
+    let dates = TestUtils.scryRenderedComponentsWithType(
       bill,
-      'date-from');
-    expect(dateFrom.textContent).toEqual('2015-01-26');
-    let dateTo = TestUtils.findRenderedDOMComponentWithClass(
-      bill,
-      'date-to');
-    expect(dateTo.textContent).toEqual('2015-02-25');
+      PrettyDate);
+    expect(dates[2].props.date).toEqual('2015-01-26');
+    expect(dates[3].props.date).toEqual('2015-02-25');
   });
 
   it('shows the total payable', () => {
