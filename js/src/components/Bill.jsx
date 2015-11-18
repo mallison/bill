@@ -60,14 +60,14 @@ export default class Bill extends React.Component {
         <h1>Welcome to your Sky bill</h1>
         <dl className="dates dl-horizontal">
           <dt>This statement was generated on</dt>
-          <dd><span className="date-generated"><PrettyDate date={generated}/></span></dd>
+          <dd><PrettyDate date={generated}/></dd>
           <dt>Payment is due on</dt>
-          <dd><span className="date-due">{due}</span></dd>
+          <dd><PrettyDate date={due}/></dd>
           <dt>This statement is for the period</dt>
           <dd>
-            <span className="date-from">{from}</span>
+            <PrettyDate date={from}/>
             {' \u2013 '}
-            <span className="date-to">{to}</span>
+            <PrettyDate date={to}/>
           </dd>
         </dl>
         <div className="row">
